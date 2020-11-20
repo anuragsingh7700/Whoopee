@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block head %}
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+  <link rel="stylesheet" href="{% static 'assets/CSS/form.css'%}">
+{% endblock head %}
+{% block header %}
+        <div class="masthead-content">
+            <div class="container swing animated">
+                  <div class="middle">
+  <h1>Let's Start!</h1>
+
+  <!--  Fancy inputs  -->
+  <div id="fancy-inputs">
+    <label class="input">
+      <input type="text">
+      <span><span>Username</span></span>
+    </label>
+
+    <label class="input">
+      <span><span>Age Group</span></span>
+    </label>
+
+      <label>
+          </label>
+      <select class="form-control select-input">
+          <option>A</option>
+          <option>B</option>
+          <option>D</option>
+          <option>C</option>
+      </select>
+  </div>
+
+
+  <a href="" class="btn">Sign Up</a>
+</div>
+        </div>
+        </div>
+     <script src="{% static 'assets/js/form-control.js'%}"></script>
+{% endblock header %}
