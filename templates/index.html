@@ -1,27 +1,24 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Whoopee</title>
-    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
-    {% block head %}
-    {% endblock head %}
-</head>
-
-<body>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
-        <div class="container"><a class="navbar-brand" href="#">WHOOPEE</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive"><span class="navbar-toggler-icon"></span></button>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Whoopee</title>
+        <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body>
+        <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
+            <div class="container"><a class="navbar-brand" href="/">WHOOPEE</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="nav navbar-nav ml-auto">
                     {% block navlink %}
-
                     {% endblock navlink %}
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#">About Us</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#">Developers</a></li>
@@ -29,34 +26,33 @@
             </div>
         </div>
     </nav>
-    <header class="masthead text-center text-white">
+    <header class="masthead text-center text-white h-100 w-100">
         {% block header %}
-        <div class="masthead-content">
-            <div class="container swing animated">
-                <h1 class="masthead-heading mb-0">Learn with Whoopee!</h1>
-                <h2 class="masthead-subheading mb-0">The game of winners</h2>
-                <div class="row p-4">
-                    <div class="col p-4"><a class="btn btn-primary btn-lg text-uppercase border rounded border-warning shadow" role="button" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" href="/new" title="Create a new game to connect your freinds!">Create a New Game</a></div>
-                    <div
-                        class="col p-4"><a class="btn btn-primary btn-lg text-uppercase border rounded border-warning shadow" role="button" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" href="index.html" title="Join an existing game with ROOM ID">Join Existing Game</a></div>
+            <div class="masthead-content">
+                <div class="container swing animated">
+                    <h1 class="masthead-heading mb-0">Learn with Whoopee!</h1>
+                    <h2 class="masthead-subheading mb-0">The game of winners</h2>
+                    <div class="row p-4">
+                        <div class="col p-4"><a class="btn btn-primary btn-lg text-uppercase border rounded border-warning shadow" role="button" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" href="/new" title="Create a new game to connect your freinds!">Create a New Game</a></div>
+                        <div
+                            class="col p-4"><a class="btn btn-primary btn-lg text-uppercase border rounded border-warning shadow" role="button" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" href="/add" title="Join an existing game with ROOM ID">Join Existing Game</a></div>
+                        </div>
+                    </div>
+                </div>
+            {% endblock header %}
+            <div class="swing animated bg-circle-1 bg-circle"></div>
+            <div data-aos="fade-up-right" data-aos-duration="750" data-aos-once="true" class="bg-circle-2 bg-circle"></div>
+            <div class="wobble animated bg-circle-3 bg-circle"></div>
+            <div class="pulse animated bg-circle-4 bg-circle"></div>
+        </header>
+        <footer class="p-4 bg-black" style="position:fixed; bottom: 0;width:100%">
+            <div class="container">
+                <p class="text-center text-white m-0 small">Copyright&nbsp;© Whoopee </p>
             </div>
-        </div>
-        </div>
-        {% endblock header %}
-        <div class="swing animated bg-circle-1 bg-circle"></div>
-        <div data-aos="fade-up-right" data-aos-duration="750" data-aos-once="true" class="bg-circle-2 bg-circle"></div>
-        <div class="wobble animated bg-circle-3 bg-circle"></div>
-        <div class="pulse animated bg-circle-4 bg-circle"></div>
-    </header>
-    <footer class="p-4 bg-black">
-        <div class="container">
-            <p class="text-center text-white m-0 small">Copyright&nbsp;© Whoopee </p>
-        </div>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'assets/js/bs-init.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
-</body>
-
+        </footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'assets/js/bs-init.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
+    </body>
 </html>

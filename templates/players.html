@@ -1,64 +1,105 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block head %}
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
-  <link rel="stylesheet" href="{% static 'assets/CSS/form.css'%}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+	<link rel="stylesheet" href="{% static 'assets/CSS/form.css'%}">
 {% endblock head %}
 {% block navlink %}
-    <li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
+	<li class="nav-item" role="presentation"><a class="nav-link" href="/">Home</a></li>
 {% endblock navlink %}
 {% block header %}
-        <div class="masthead-content">
-            <div class="container swing animated">
-                  <div class="middle">
-  <h1>Naye Page pe aagaya</h1>
-                      <div id="app">
+	<div class="masthead-content">
+		<div class="container swing animated">
+			<div class="middle">
+				<div id="app">
+					<p>
+						<strong>Room ID: </strong>
+						<span class="key">{{ room_id }}</span>
+						<i class="copy hide far fa-copy"></i>
+						<span class="copied hide">
+							<i class="fas fa-check"></i> <small>Copied!</small>
+						</span>
+					</p>
+					<p class="small">(Tap on Room Id to copy)</p>
+				</div>
+				<table align="center" class="table table-bordered">
+				</table>
+				<div class="single category">
+					<h3 class="side-title">Players</h3>
+					<table class="table text-white text-center" id="playerTable">
+						{% for player in players %}
+							<tr>
+								<td><h4>{{ player.0 }} <span class="pull-right">{{ player.1 }}</span></h4></td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<p>
-		<strong>Room ID: </strong>
-		<span class="key">{{ room_id }}</span>
-		<i class="copy hide far fa-copy"></i>
-		<span class="copied hide">
-			<i class="fas fa-check"></i> <small>Copied!</small>
-		</span>
-	</p>
-                          <p class="small">(Tap on Room Id to copy)</p>
-</div>
-
-</div>
-        </div>
-        </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script>
-const key = document.querySelector('.key')
-const keyText = key.innerText
-const copy = document.querySelector('.copy')
-const copied = document.querySelector('.copied')
+        let room_id = document.getElementsByClassName('key')[0].innerText
+        let myVar;
 
+        function myFunction() {
+          myVar = setInterval(alertFunc, 3000);
+        }
 
-// Show "copy" icon on hover with helper class.
-key.addEventListener('mouseover', () => copy.classList.remove('hide'))
-key.addEventListener('mouseleave', () => copy.classList.add('hide'))
+        function alertFunc() {
+          $.ajax({
+                type:'get',
+                url: '/updatePlayers',
+                data: {
+                    'room_id': room_id
+                },
+                success: function (data){
+                    {#console.log();#}
+                    let len = Object.keys(data['players']).length
+                    {#console.log()#}
+                    {#console.log(len[0])#}
+                    let table = document.getElementById('playerTable')
+                    table.innerHTML = ""
+                    for(let i=0; i< len;i+=1){
+                        let row = table.insertRow(0);
+                        let cell1 = row.insertCell(0);
+                        let cell2 = row.insertCell(1);
+                        cell1.innerHTML = "<h4>"+ data['player_names'][i] +"</h4>";
+                        cell2.innerHTML = "<h4>"+ data['players'][data['player_names'][i]]['age']+"</h4>";
+                        table.appendChild(row);
+                    }
+                }
+            })
+        }
 
+    myFunction()
 
-// Copy text when clicking on it.
-key.addEventListener('click', () => {
-	// We change "copy" icon for "copied" message.
-	copy.classList.add('hide')
-	copied.classList.remove('hide')
-
-	// We turn simple text into an input value temporarily, so we can use methods .select() and .execCommand() which are compatible with inputs and textareas.
-	let helperInput = document.createElement('input')
-	document.body.appendChild(helperInput)
-	helperInput.value = keyText
-	helperInput.select()
-	document.execCommand('copy')
-	document.body.removeChild(helperInput)
-
-	// We remove the "copied" message after 2 seconds.
-	setTimeout( () => {
-		copied.classList.add('hide')
-	}, 2000)
-
-})
     </script>
+	<script>
+	const key = document.querySelector('.key')
+	const keyText = key.innerText
+	const copy = document.querySelector('.copy')
+	const copied = document.querySelector('.copied')
+	// Show "copy" icon on hover with helper class.
+	key.addEventListener('mouseover', () => copy.classList.remove('hide'))
+	key.addEventListener('mouseleave', () => copy.classList.add('hide'))
+	// Copy text when clicking on it.
+	key.addEventListener('click', () => {
+		// We change "copy" icon for "copied" message.
+		copy.classList.add('hide')
+		copied.classList.remove('hide')
+		// We turn simple text into an input value temporarily, so we can use methods .select() and .execCommand() which are compatible with inputs and textareas.
+		let helperInput = document.createElement('input')
+		document.body.appendChild(helperInput)
+		helperInput.value = keyText
+		helperInput.select()
+		document.execCommand('copy')
+		document.body.removeChild(helperInput)
+		// We remove the "copied" message after 2 seconds.
+		setTimeout( () => {
+			copied.classList.add('hide')
+		}, 2000)
+	})
+	</script>
 {% endblock header %}

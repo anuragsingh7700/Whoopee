@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home),
     path('new/', views.new_game),
-    path('new/add', views.add_players),
-
+    path('add/', views.add_players),
+    path('quiz/', views.quiz),
+    path('updatePlayers/', views.ajax_player_update)
 ]

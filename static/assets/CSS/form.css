@@ -78,7 +78,7 @@
  #fancy-inputs input:focus + span span {
 	 cursor: initial;
 	 position: absolute;
-	 top: -35px;
+	 top: -20px;
 	 color: #f1c40f;
 }
  #fancy-inputs input:focus + span:before {
@@ -88,7 +88,7 @@
 	 width: 50%;
 }
  #fancy-inputs span.fixed span {
-	 /*top: -35px;*/
+	 top: -35px;
 }
  #fancy-radio {
 	 float: left;

@@ -1,7 +1,32 @@
-from django.shortcuts import render,redirect
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
 from random import randint
+from .models import GamePlay
+from collections import OrderedDict
 from django.contrib.sessions.models import Session
 running_games = list()
+
+
+def dict_list(room_id):
+    current_game = GamePlay.objects.get(room_id=int(room_id)).players
+    all_players = []
+    players_name = list(current_game.keys())
+    print(list(players_name))
+    for index, item in enumerate(current_game.items()):
+        all_players.append([item[0], item[1]['age']])
+    print(all_players)
+    context = {
+        'room_id': room_id,
+        'players': all_players
+    }
+    return context
+
+
+def append_player(players, name, age_grp):
+    players[name] = OrderedDict([
+        ('age', age_grp),
+        ('score', 0)])
+    return players
 
 
 # Create your views here.
@@ -12,15 +37,33 @@ def home(request):
 
 def new_game(request):
     # View code here...
-    while True:
-        room_id = randint(1, 10001)
-        if room_id not in running_games:
-            break
-    running_games.append(room_id)
-    context = {'room_id': room_id}
-    # request.session['room_id'] = room_id
-    print(request.session['room_id'])
-    return render(request, 'new_game.html', context)
+    if request.method == 'POST':
+        name = request.POST['name']
+        room_id = request.POST['room_id']
+        age_grp = request.POST['age']
+        print(request.session.get('room_id'))
+        if request.session.get('room_id', None) != room_id:
+            game = GamePlay(room_id=room_id, players={
+                                            name: {
+                                                'age': age_grp,
+                                                'score': 0
+                                            }
+                                        })
+            game.save()
+        # finally:
+
+        context = dict_list(room_id)
+        return render(request, 'players.html', context)
+    else:
+        while True:
+            room_id = randint(1, 10001)
+            if room_id not in running_games:
+                break
+        running_games.append(room_id)
+        context = {'room_id': room_id}
+        request.session['room_id'] = room_id
+        # print(request.session['room_id'])
+        return render(request, 'new_game.html', context)
 
 
 def add_players(request):
@@ -28,8 +71,38 @@ def add_players(request):
         name = request.POST['name']
         room_id = request.POST['room_id']
         age_grp = request.POST['age']
-        print(name, age_grp, room_id)
-        print(running_games)
-        return render(request, 'players.html')
+        players = None
+        try:
+            players = GamePlay.objects.get(room_id=room_id).players
+        except:
+            return redirect(home)
+        finally:
+            if players:
+                players = append_player(players, name, age_grp)
+            # print(players)
+            GamePlay.objects.filter(room_id=room_id).update(players=players)
+            context = dict_list(room_id)
+        return render(request, 'players.html', context)
     else:
-        return redirect(home)
+        return render(request, 'add_player.html')
+
+
+def ajax_player_update(request):
+    if request.method == 'GET':
+        room_id = request.GET.get('room_id', None)
+        players = GamePlay.objects.get(room_id=room_id).players
+        player_names = list(players.keys())
+        # print(player_names)
+        data = {
+            'room_id': room_id,
+            'players': players,
+            'player_names': player_names
+        }
+        if data['players']:
+            return JsonResponse(data)
+        else:
+            return JsonResponse('Invalid')
+
+
+def quiz(request):
+    return render(request, 'quiz.html')
