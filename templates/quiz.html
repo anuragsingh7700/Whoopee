@@ -6,138 +6,362 @@
 {% endblock head %}
 {% block header %}
   <div class="masthead-content">
-
     <div class="container zoom animated">
-  <div id="app"></div>
+      
       <div class="middle">
-        <h1>Let's Start with the quiz!</h1>
-        <p id="demo"></p>
-        <h2>Question</h2>
-          <div class="fancy-inputs">
-        <div class="form-check">
-          <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optradio">Option 1
-          </label>
+        <h1>Player Name</h1>
+        <div id="app"></div>
+        {% comment %} <div class="fancy-inputs">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="optradio">Option 1
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="optradio">Option 2
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="optradio" >Option 3
+            </label>
+          </div>
+          <div class="form-check disabled">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="optradio" >Option 4
+            </label>
+          </div>
+        </div> {% endcomment %}
+        <div class="container">
+        <div class="row"><br><br>
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="loader">
+                    <div class="col-xs-3 col-xs-offset-5">
+                        <div id="loadbar" style="display: none;">
+                            <img src="http://schoolsearch.co.ke/systems/img/loader.gif_large.gif" alt="Loading" class="center-block loanParamsLoader" style="">
+                        </div>
+                    </div>
+
+                    <div id="quiz">
+                  
+                        <div class="question">
+                            <h3><span class="label label-warning" id="qid">1</span>
+                            <span id="question"> </span>
+                            </h3>
+                        </div>
+                        <ul>
+                          <li>
+                            <input type="radio" class="inputoption" id="f-option" name="selector" value="1">
+                            <label for="f-option" class="element-animation"></label>
+                            <div class="check"></div>
+                          </li>
+                          
+                          <li>
+                            <input type="radio" class="inputoption" id="s-option" name="selector" value="2">
+                            <label for="s-option" class="element-animation"></label>
+                            <div class="check"><div class="inside"></div></div>
+                          </li>
+                          
+                          <li>
+                            <input type="radio" class="inputoption" id="t-option" name="selector" value="3">
+                            <label for="t-option" class="element-animation"></label>
+                            <div class="check"><div class="inside"></div></div>
+                          </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-muted">
+                    <span id="answer"></span>
+                </div>
+            </div>
         </div>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optradio">Option 2
-          </label>
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <div id="result-of-question" style="display: none;">
+                    <span id="totalCorrect" class="pull-right"></span>
+                    <table class="table table-hover table-responsive" >
+                        <thead>
+                            <tr>
+                                <th>Question No.</th>
+                                <th>Our answer</th>
+                                <th>Your answer</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quizResult"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optradio" >Option 3
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <label class="form-check-label">
-            <input type="radio" class="form-check-input" name="optradio" >Option 4
-          </label>
-        </div>
-              </div>
+    </div>
+        <div class="col p-4"><a class="btn btn-primary text-uppercase border rounded border-warning shadow" role="button" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" href="#" title="Submit Answers">Submit.</a></div>
       </div>
     </div>
   </div>
-<script>
-const FULL_DASH_ARRAY = 283;
-const WARNING_THRESHOLD = 10;
-const ALERT_THRESHOLD = 5;
-const COLOR_CODES = {
-info: {
-color: "green"
-},
-warning: {
-color: "orange",
-threshold: WARNING_THRESHOLD
-},
-alert: {
-color: "red",
-threshold: ALERT_THRESHOLD
-}
-};
-const TIME_LIMIT = 20;
-let timePassed = 0;
-let timeLeft = TIME_LIMIT;
-let timerInterval = null;
-let remainingPathColor = COLOR_CODES.info.color;
-document.getElementById("app").innerHTML = `
-<div class="base-timer">
-  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <g class="base-timer__circle">
-      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-      <path
-        id="base-timer-path-remaining"
-        stroke-dasharray="283"
-        class="base-timer__path-remaining ${remainingPathColor}"
-        d="
-        M 50, 50
-        m -45, 0
-        a 45,45 0 1,0 90,0
-        a 45,45 0 1,0 -90,0
-        "
-      ></path>
-    </g>
-  </svg>
-  <span id="base-timer-label" class="base-timer__label">${formatTime(
-    timeLeft
-  )}</span>
-</div>
-`;
-startTimer();
-function onTimesUp() {
-clearInterval(timerInterval);
-}
-function startTimer() {
-timerInterval = setInterval(() => {
-timePassed = timePassed += 1;
-timeLeft = TIME_LIMIT - timePassed;
-document.getElementById("base-timer-label").innerHTML = formatTime(
-timeLeft
-);
-setCircleDasharray();
-setRemainingPathColor(timeLeft);
-if (timeLeft === 0) {
-onTimesUp();
-}
-}, 1000);
-}
-function formatTime(time) {
-const minutes = Math.floor(time / 60);
-let seconds = time % 60;
-if (seconds < 10) {
-seconds = `0${seconds}`;
-}
-return `${minutes}:${seconds}`;
-}
-function setRemainingPathColor(timeLeft) {
-const { alert, warning, info } = COLOR_CODES;
-if (timeLeft <= alert.threshold) {
-document
-.getElementById("base-timer-path-remaining")
-.classList.remove(warning.color);
-document
-.getElementById("base-timer-path-remaining")
-.classList.add(alert.color);
-} else if (timeLeft <= warning.threshold) {
-document
-.getElementById("base-timer-path-remaining")
-.classList.remove(info.color);
-document
-.getElementById("base-timer-path-remaining")
-.classList.add(warning.color);
-}
-}
-function calculateTimeFraction() {
-const rawTimeFraction = timeLeft / TIME_LIMIT;
-return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
-}
-function setCircleDasharray() {
-const circleDasharray = `${(
-calculateTimeFraction() * FULL_DASH_ARRAY
-).toFixed(0)} 283`;
-document
-.getElementById("base-timer-path-remaining")
-.setAttribute("stroke-dasharray", circleDasharray);
-}
-</script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script>
+  let room_id = document.getElementsByClassName('key')[0].innerText
+  let myVar;
+  function myFunction() {
+  myVar = setInterval(alertFunc, 3000);
+  }
+  function alertFunc() {
+  $.ajax({
+  type:'get',
+  url: '/updatePlayers',
+  data: {
+  'room_id': room_id
+  },
+  success: function (data){
+  {#console.log();#}
+  let len = Object.keys(data['players']).length
+  {#console.log()#}
+  {#console.log(len[0])#}
+  let table = document.getElementById('playerTable')
+  table.innerHTML = ""
+  for(let i=0; i< len;i+=1){
+  let row = table.insertRow(0);
+  let cell1 = row.insertCell(0);
+  let cell2 = row.insertCell(1);
+  cell1.innerHTML = "<h4>"+ data['player_names'][i] +"</h4>";
+  cell2.innerHTML = "<h4>"+ data['players'][data['player_names'][i]]['age']+"</h4>";
+  table.appendChild(row);
+  }
+  }
+  })
+  }
+  myFunction()
+  <script>
+  const FULL_DASH_ARRAY = 283;
+  const WARNING_THRESHOLD = 10;
+  const ALERT_THRESHOLD = 5;
+  const COLOR_CODES = {
+  info: {
+  color: "green"
+  },
+  warning: {
+  color: "orange",
+  threshold: WARNING_THRESHOLD
+  },
+  alert: {
+  color: "red",
+  threshold: ALERT_THRESHOLD
+  }
+  };
+  const TIME_LIMIT = 20;
+  let timePassed = 0;
+  let timeLeft = TIME_LIMIT;
+  let timerInterval = null;
+  let remainingPathColor = COLOR_CODES.info.color;
+  document.getElementById("app").innerHTML = `
+  <div class="base-timer">
+    <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g class="base-timer__circle">
+        <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+        <path
+          id="base-timer-path-remaining"
+          stroke-dasharray="283"
+          class="base-timer__path-remaining ${remainingPathColor}"
+          d="
+          M 50, 50
+          m -45, 0
+          a 45,45 0 1,0 90,0
+          a 45,45 0 1,0 -90,0
+          "
+        ></path>
+      </g>
+    </svg>
+    <span id="base-timer-label" class="base-timer__label">${formatTime(
+      timeLeft
+    )}</span>
+  </div>
+  `;
+  startTimer();
+  function onTimesUp() {
+  clearInterval(timerInterval);
+  }
+  function startTimer() {
+  timerInterval = setInterval(() => {
+  timePassed = timePassed += 1;
+  timeLeft = TIME_LIMIT - timePassed;
+  document.getElementById("base-timer-label").innerHTML = formatTime(
+  timeLeft
+  );
+  setCircleDasharray();
+  setRemainingPathColor(timeLeft);
+  if (timeLeft === 0) {
+  onTimesUp();
+  }
+  }, 1000);
+  }
+  function formatTime(time) {
+  const minutes = Math.floor(time / 60);
+  let seconds = time % 60;
+  if (seconds < 10) {
+  seconds = `0${seconds}`;
+  }
+  return `${minutes}:${seconds}`;
+  }
+  function setRemainingPathColor(timeLeft) {
+  const { alert, warning, info } = COLOR_CODES;
+  if (timeLeft <= alert.threshold) {
+  document
+  .getElementById("base-timer-path-remaining")
+  .classList.remove(warning.color);
+  document
+  .getElementById("base-timer-path-remaining")
+  .classList.add(alert.color);
+  } else if (timeLeft <= warning.threshold) {
+  document
+  .getElementById("base-timer-path-remaining")
+  .classList.remove(info.color);
+  document
+  .getElementById("base-timer-path-remaining")
+  .classList.add(warning.color);
+  }
+  }
+  function calculateTimeFraction() {
+  const rawTimeFraction = timeLeft / TIME_LIMIT;
+  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+  }
+  function setCircleDasharray() {
+  const circleDasharray = `${(
+  calculateTimeFraction() * FULL_DASH_ARRAY
+  ).toFixed(0)} 283`;
+  document
+  .getElementById("base-timer-path-remaining")
+  .setAttribute("stroke-dasharray", circleDasharray);
+  }
+  </script>
+
+
+
+  <script>
+      var q = [
+        {'Q':'How do you write "Hello World" in an alert box?', 'A':2,'C':['msg("Hello World");','alert("Hello World");','alertBox("Hello World");'],'H':"Hint 1"},
+        {'Q':'How do you create a function in JavaScript?', 'A':3,'C':['function:myFunction()','function = myFunction()','function myFunction()'],'H':"Hint 1"},
+        {'Q':'How to write an IF statement in JavaScript?', 'A':1,'C':['if (i == 5)','if i = 5 then','if i == 5 then'],'H':"Hint 1"},
+        {'Q':'How does a FOR loop start?', 'A':2,'C':['for (i = 0; i <= 5)','for (i = 0; i <= 5; i++)','for i = 1 to 5'],'H':"Hint 1"},
+        {'Q':'What is the correct way to write a JavaScript array?', 'A':3,'C':['var colors = "red", "green", "blue"','var colors = (1:"red", 2:"green", 3:"blue")','var colors = ["red", "green", "blue"]'],'H':"Hint 1"}
+    ];
+
+
+$(function(){
+    var loading = $('#loadbar').hide();
+    $(document)
+    .ajaxStart(function () {
+        loading.show();
+    }).ajaxStop(function () {
+    	loading.hide();
+    });
+    
+
+	var choicecount = 1;
+    var allowchoice  = true;
+    var questionNo = 0;
+    
+    $('#question').html(q[questionNo].Q);
+	$($('#f-option').parent().find('label')).html(q[questionNo].C[0]);
+	$($('#s-option').parent().find('label')).html(q[questionNo].C[1]);
+	$($('#t-option').parent().find('label')).html(q[questionNo].C[2]);
+		 
+
+    $(document.body).on('click',"#show-hint-button",function (e) {
+		$('.show-hint').removeClass('hidden');    	
+	});
+
+    $(document.body).on('click',"label.element-animation",function (e) {
+    	var choice = $(this).parent().find('input:radio').val();
+        console.log(choice);
+    	var anscheck =  $(this).checking(questionNo, choice);//$( "#answer" ).html(  );      
+    	var thisel = $(this);
+        // q[questionNo].UC = choice;
+        // console.log(anscheck);
+        if(anscheck){//answer correct
+            // correctCount++;
+            // q[questionNo].result = "Correct";
+            allowchoice = false;
+        } else {//answer wrong
+            // q[questionNo].result = "Incorrect";        
+            $(this).addClass('cross');
+            $($(this).parent().find('.check')).addClass('cross');
+            $($(this).parent().find('.inputoption')).addClass('cross');
+        }
+        choicecount++;
+    	if(choicecount > 2){//crossed limit of choosing option
+    		console.log(choicecount+" greater than 2");
+			allowchoice = false;
+    	}	
+		if(allowchoice){
+			if(choicecount > 1){
+				$('.show-hint').html(q[questionNo].H);
+				$('#show-hint-button').prop('disabled', false);
+			}
+		} else {
+	        setTimeout(function(){
+	            $('#loadbar').show();
+	            $('#quiz').fadeOut();
+				
+				$('.inputoption').removeClass('cross');
+            	$('.check').removeClass('cross');
+            	$('.inputoption').removeClass('cross');
+        	
+	            questionNo++;
+	         	choicecount = 1;
+	         	allowchoice = true;
+	         	$('#show-hint-button').prop('disabled', true);
+				$('.show-hint').addClass('hidden');  
+
+				 
+            //show answer and go to next question
+				if((questionNo + 1) > q.length){
+	                alert("Quiz completed, Now click ok to get your answer");
+	                $('label.element-animation').unbind('click');
+	                setTimeout(function(){
+	                    var toAppend = '';
+	                    $.each(q, function(i, a){
+	                        toAppend += '<tr>'
+	                        toAppend += '<td>'+(i+1)+'</td>';
+	                        toAppend += '<td>'+a.A+'</td>';
+	                        toAppend += '<td>'+a.UC+'</td>';
+	                        toAppend += '<td>'+a.result+'</td>';
+	                        toAppend += '</tr>'
+	                    });
+	                    $('#quizResult').html(toAppend);
+	                    $('#totalCorrect').html("Total correct: " + correctCount);
+	                    $('#quizResult').show();
+	                    $('#loadbar').fadeOut();
+	                    $('#result-of-question').show();
+	                }, 1000);
+            	} else {
+					$('#qid').html(questionNo + 1);
+                	$('input:radio').prop('checked', false);
+		    	    setTimeout(function(){
+		            	$('#quiz').show();
+		            	$('#loadbar').fadeOut();
+		          	}, 1000);
+		            $('#question').html(q[questionNo].Q);
+		            $($('#f-option').parent().find('label')).html(q[questionNo].C[0]);
+		            $($('#s-option').parent().find('label')).html(q[questionNo].C[1]);
+		            $($('#t-option').parent().find('label')).html(q[questionNo].C[2]);
+		        }
+	        }, 1000);
+		}
+	});
+
+
+    $.fn.checking = function(qstn, ck) {
+        var ans = q[questionNo].A;
+        console.log(ans);
+        if (ck != ans)
+            return false;
+        else 
+            return true;
+    }; 
+
+});
+  
+  </script>
+  
 {% endblock header %}

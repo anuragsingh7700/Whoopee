@@ -1,10 +1,12 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+import pandas as pd
 from random import randint
 from .models import GamePlay
 from collections import OrderedDict
 from django.contrib.sessions.models import Session
 running_games = list()
+
 
 
 def dict_list(room_id):
@@ -41,7 +43,7 @@ def new_game(request):
         name = request.POST['name']
         room_id = request.POST['room_id']
         age_grp = request.POST['age']
-        print(request.session.get('room_id'))
+        # print(request.session.get('room_id'))
         if request.session.get('room_id', None) != room_id:
             game = GamePlay(room_id=room_id, players={
                                             name: {
@@ -77,6 +79,7 @@ def add_players(request):
         except:
             return redirect(home)
         finally:
+            request.session['room_id'] = room_id
             if players:
                 players = append_player(players, name, age_grp)
             # print(players)
@@ -103,6 +106,31 @@ def ajax_player_update(request):
         else:
             return JsonResponse('Invalid')
 
+#######
+#starting Actual Game implentation here
+#######
+
+age12_15 = pd.read_csv('data/12to15.csv',encoding='latin1')
+age16_18 = pd.read_csv('data/16to18.csv',encoding='latin1')
+
 
 def quiz(request):
-    return render(request, 'quiz.html')
+    if request.method == 'GET':
+        room_id = request.session['room_id']
+        players = GamePlay.objects.get(room_id=room_id).players
+        context = {
+            'room_id': room_id,
+            'players': players
+        }
+        return render(request, 'quiz.html', context)
+    # else:
+    #     return render(request, 'quiz.html')
+
+
+def ajax_quiz(request):
+    if request.method == 'GET':
+        data = ['age12_15','age16_18']
+        age_grp = request.get['age_grp']
+        age = int(age_grp[:1])
+        
+        return JsonResponse('Hello')
