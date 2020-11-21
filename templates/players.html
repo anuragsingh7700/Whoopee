@@ -11,14 +11,7 @@
         <div class="masthead-content">
             <div class="container swing animated">
                   <div class="middle">
-  <h1>Let's Start!</h1>
-                      <!-- The text field -->
-{#<input id="txt" value=""/>#}
-{#    <div class="text-center flex-row justify-content-center ">#}
-{#        <button id="btn" class="btn" style="width: 80%">{{ room_id }}</button>#}
-{#    </div>#}
-
-                      <!-- Copy to clipboard button-->
+  <h1>Naye Page pe aagaya</h1>
                       <div id="app">
 
 	<p>
@@ -32,34 +25,6 @@
                           <p class="small">(Tap on Room Id to copy)</p>
 </div>
 
-  <!--  Fancy inputs  -->
-<form method="post" action="/new/add">
-    {% csrf_token %}
-  <!--  Fancy inputs  -->
-    <input type="text" value="{{ room_id }}" name="room_id" style="display: none">
-  <div id="fancy-inputs">
-    <label class="input">
-      <input type="text" name="name">
-      <span><span>Awesome Name</span></span>
-    </label>
-
-    <label class="input" for="age">
-      <span><span>Age Group</span></span>
-    </label>
-      <select class="form-control select-input" name="age">
-          <option default>Select Age</option>
-          <option>12-15</option>
-          <option>16-18</option>
-          <option>19-24</option>
-          <option>25-35</option>
-          <option>36-45</option>
-          <option>45-60</option>
-          <option>60+</option>
-      </select>
-  </div>
-
-  <input type="submit" class="btn" value="Start Game"/>
-                  </form>
 </div>
         </div>
         </div>

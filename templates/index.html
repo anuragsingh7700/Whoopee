@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
+    <title>Whoopee</title>
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i">
@@ -20,6 +20,9 @@
         <div class="container"><a class="navbar-brand" href="#">WHOOPEE</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navbarResponsive"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="nav navbar-nav ml-auto">
+                    {% block navlink %}
+
+                    {% endblock navlink %}
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#">About Us</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="#">Developers</a></li>
                 </ul>
@@ -33,7 +36,7 @@
                 <h1 class="masthead-heading mb-0">Learn with Whoopee!</h1>
                 <h2 class="masthead-subheading mb-0">The game of winners</h2>
                 <div class="row p-4">
-                    <div class="col p-4"><a class="btn btn-primary btn-lg text-uppercase border rounded border-warning shadow" role="button" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" href="index.html" title="Create a new game to connect your freinds!">Create a New Game</a></div>
+                    <div class="col p-4"><a class="btn btn-primary btn-lg text-uppercase border rounded border-warning shadow" role="button" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" href="/new" title="Create a new game to connect your freinds!">Create a New Game</a></div>
                     <div
                         class="col p-4"><a class="btn btn-primary btn-lg text-uppercase border rounded border-warning shadow" role="button" data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" href="index.html" title="Join an existing game with ROOM ID">Join Existing Game</a></div>
             </div>
